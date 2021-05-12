@@ -1,0 +1,89 @@
+From 256a47a0129061adea1c7d1b1d9d1c7c65cd6e4e Mon Sep 17 00:00:00 2001
+From: LucasThomas <thomas.lucas@student.uliege.be>
+Date: Wed, 12 May 2021 17:47:52 +0200
+Subject: [PATCH] Project2
+
+---
+ Makefile                               | 2 +-
+ arch/x86/entry/syscalls/syscall_32.tbl | 2 ++
+ getnbpages/Makefile                    | 3 +++
+ getnbpages/getnbpages.c                | 8 ++++++++
+ getreadpages/Makefile                  | 2 ++
+ getreadpages/getreadpages.c            | 8 ++++++++
+ 6 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 getnbpages/Makefile
+ create mode 100644 getnbpages/getnbpages.c
+ create mode 100644 getreadpages/Makefile
+ create mode 100644 getreadpages/getreadpages.c
+
+diff --git a/Makefile b/Makefile
+index c8b8e90..4f6cb73 100644
+--- a/Makefile
++++ b/Makefile
+@@ -940,7 +940,7 @@ endif
+ 
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+-core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
++core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ getnbpages/ getreadpages/
+ 
+ vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+ 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 448ac21..a9c91e8 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -391,3 +391,5 @@
+ 382	i386	pkey_free		sys_pkey_free
+ 383	i386	statx			sys_statx
+ 384	i386	arch_prctl		sys_arch_prctl			compat_sys_arch_prctl
++385     i386    getnbpages              sys_getnbpages
++386     i386    getreadpages            sys_getreadpages
+diff --git a/getnbpages/Makefile b/getnbpages/Makefile
+new file mode 100644
+index 0000000..b8646d2
+--- /dev/null
++++ b/getnbpages/Makefile
+@@ -0,0 +1,3 @@
++
++obj-y := getnbpages.o
++
+diff --git a/getnbpages/getnbpages.c b/getnbpages/getnbpages.c
+new file mode 100644
+index 0000000..2c1ece9
+--- /dev/null
++++ b/getnbpages/getnbpages.c
+@@ -0,0 +1,8 @@
++#include <linux/kernel.h>
++
++asmlinkage long sys_getnbpages(void){
++
++	printk("Get number of pages\n");
++	return 0;
++
++}
+diff --git a/getreadpages/Makefile b/getreadpages/Makefile
+new file mode 100644
+index 0000000..8501a99
+--- /dev/null
++++ b/getreadpages/Makefile
+@@ -0,0 +1,2 @@
++
++obj-y := getreadpages.o
+diff --git a/getreadpages/getreadpages.c b/getreadpages/getreadpages.c
+new file mode 100644
+index 0000000..54f5ab4
+--- /dev/null
++++ b/getreadpages/getreadpages.c
+@@ -0,0 +1,8 @@
++#include <linux/kernel.h>
++
++asmlinkage long sys_getreadpages(void){
++
++	printk("Get read pages\n");
++	return 0;
++
++}
+-- 
+2.7.4
+
